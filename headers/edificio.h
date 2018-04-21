@@ -13,17 +13,16 @@
 #define EDIFICIO_H_
 
 class Edificio{
+    
+private:
+    Grupo grupo;
+    
 public:
 	int ide;
-	Edificio(int ide);
+        
+	Edificio(int ide){
+            this->ide = ide;
+        }
 
-private:
-	Grupo grupo;
 };
-
-Edificio::Edificio(int ide){
-	this->ide = ide;
-
-}
-
 #endif /* EDIFICIO_H_ */

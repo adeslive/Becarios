@@ -8,6 +8,7 @@
 
 #include <pthread.h>
 #include <iostream>
+#include <chrono>
 #include "tarea.h"
 
 #ifndef BECARIO_H_
@@ -25,33 +26,36 @@ private:
 	int id;
 	int idg;
 	bool estado;
+        bool habilitado;
 	Tarea tarea;
         pthread_t becarioHilo;
         
-        static void* becarioMain(void* ){
-            cout<<"Becario creado!"; 
-            while(true){
-                cout<<"hello";
+        static void* becarioMain(void* ){                                       //  Función principal del hilo del becario
+            while(this->habilitado){
+                while(this->estado == 1){
+                    
+                }
             }
             pthread_exit(NULL);
         }
         
 public:
-	Becario(int id, int idg) : becarioHilo(){
+	Becario(int id, int idg) : becarioHilo(){                               //  Inicializador del becario
             this->id = id;
             this->idg = idg;
             this->estado = 0;
+            this->habilitado = 1;
             this->empezar();
         }
         
         ~Becario();
         
-        void empezar(){
+        void empezar(){                                                         //  Inicializador del hilo
             pthread_create(&(this->becarioHilo), NULL, Becario::becarioMain, this);
             (void) pthread_join(this->becarioHilo, NULL);
         }
         
-        friend ostream &operator<<(ostream &os, const Becario *b){
+        friend ostream &operator<<(ostream &os, const Becario *b){              //  Sobrecarga del operador de escritura
             os << "Id Grupo: " << b->idg<<" Id Becario: "<<b->id<<endl;
             return os;
         }  
