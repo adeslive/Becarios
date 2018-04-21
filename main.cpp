@@ -21,7 +21,9 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
-    Becario* becario = new Becario(1, 1);
+    Becario* becario = new Becario(1,1);
+    
+    std::cout<<endl<<becario;
 
     return 0;
 }
