@@ -20,39 +20,41 @@ using namespace std;
  */
 
 class Becario{
+    
 private:
 	int id;
 	int idg;
 	bool estado;
 	Tarea tarea;
         pthread_t becarioHilo;
-        static void* entradaEs(void* c);
         
-        void becarioMain(){
-            cout<<"Becario creado!";
+        static void* becarioMain(void* ){
+            cout<<"Becario creado!"; 
             while(true){
                 cout<<"hello";
             }
+            pthread_exit(NULL);
         }
+        
 public:
 	Becario(int id, int idg) : becarioHilo(){
             this->id = id;
             this->idg = idg;
             this->estado = 0;
+            this->empezar();
         }
+        
         ~Becario();
+        
         void empezar(){
-            pthread_create(&becarioHilo, NULL, Becario::entradaEs, this);
+            pthread_create(&(this->becarioHilo), NULL, Becario::becarioMain, this);
+            (void) pthread_join(this->becarioHilo, NULL);
         }
+        
         friend ostream &operator<<(ostream &os, const Becario *b){
             os << "Id Grupo: " << b->idg<<" Id Becario: "<<b->id<<endl;
             return os;
         }  
 
 };
-
-void* Becario::entradaEs(void *c){
-    ((Becario *) c)->becarioMain();
-    return NULL;
-}
 #endif /* BECARIO_H_ */
