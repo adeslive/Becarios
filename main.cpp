@@ -11,20 +11,16 @@
  * Created on April 20, 2018, 1:44 PM
  */
 
-#include <cstdlib>
-#include "headers/becario.h"
+#include <pthread.h>
+#include <iostream>
+#include "headers/grupo.h"
 
 using namespace std;
-
-/*
- * 
- */
 int main(int argc, char** argv) {
     
-    Becario* becario = new Becario(1,1);
+    Grupo* grupo1 = new Grupo(1,2);
     
-    std::cout<<endl<<becario;
-
+    
     return 0;
 }
 

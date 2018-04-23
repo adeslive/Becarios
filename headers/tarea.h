@@ -9,47 +9,58 @@
 #define TAREA_H_
 
 /*
- * Estado -1 = No se completo
- * Estado 0 = Se esta trabajando la tarea
+ * Estado -1 = Incompleta
+ * Estado 0 = Lista para trabajarse
  * Estado 1 = Se completo la tarea
  */
 
 class Tarea {
-public:
-	void setPrioridad(int prioridad);
-	void setEstado(int estado);
-	void setDificultad(unsigned int dif);
-	int getPrioridad();
-	int getEstado();
-	int getDificultad();
-
 private:
-	unsigned int dificultad;
-	int prioridad;
-	int estado;
+    bool tareaLogica;
+    int prioridad;
+    int estado;
+    int numeroBecarios;
+    unsigned int dificultad;
+
+
+public:
+    int tiempo;
+
+    Tarea(bool tareaLogica, int prioridad, unsigned int dificultad) {
+        this->tareaLogica = tareaLogica;
+        this->prioridad = prioridad;
+        this->dificultad = dificultad;
+        this->estado = 0;
+        this->numeroBecarios++;
+
+        tiempo = dificultad * prioridad - numeroBecarios * (tareaLogica + 1);
+    }
+
+    ~Tarea();
+
+    void setPrioridad(int prioridad) {
+        this->prioridad = prioridad;
+    }
+
+    void setEstado(int estado) {
+        this->estado = estado;
+    }
+
+    void setDificultad(unsigned int dif) {
+        this->dificultad = dif;
+    }
+
+    int getPrioridad() {
+        return this->prioridad;
+    }
+
+    int getEstado() {
+        return this->estado;
+    }
+
+    int getDificultad() {
+        return this->dificultad;
+    }
+
 };
-
-void Tarea::setPrioridad(int prioridad) {
-	this->prioridad = prioridad;
-}
-
-void Tarea::setEstado(int estado) {
-	this->estado = estado;
-}
-
-void Tarea::setDificultad(unsigned int dif) {
-	this->dificultad = dif;
-}
-
-int Tarea::getPrioridad() {
-	return this->prioridad;
-}
-
-int Tarea::getEstado() {
-	return this->estado;
-}
-
-int Tarea::getDificultad() {
-	return this->dificultad;
-}
 #endif /* TAREA_H_ */

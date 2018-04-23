@@ -9,6 +9,7 @@
         <itemPath>headers/edificio.h</itemPath>
         <itemPath>headers/entorpecedor.h</itemPath>
         <itemPath>headers/grupo.h</itemPath>
+        <itemPath>headers/herramienta.h</itemPath>
         <itemPath>headers/sistema.h</itemPath>
         <itemPath>headers/tarea.h</itemPath>
       </logicalFolder>
@@ -58,6 +59,8 @@
       </item>
       <item path="headers/grupo.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="headers/herramienta.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
@@ -93,6 +96,8 @@
       <item path="headers/entorpecedor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="headers/grupo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="headers/herramienta.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
       </item>
