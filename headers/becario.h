@@ -8,18 +8,25 @@
 
 #include <pthread.h>
 #include <iostream>
-#include <chrono>
-#include "tarea.h"
+#include <queue>
 
 #ifndef BECARIO_H_
 #define BECARIO_H_
 
-using namespace std;
 
 /*
  * Estado 1 = Esta trabajando
  * Estado 0 = No esta trabajando
  */
+
+struct Tarea{
+    bool tipo;
+    bool estado;
+    int tiempo;
+    int nBecarios;
+    int dificultad;
+    int prioridad;
+};
 
 class Becario {
 private:
@@ -27,17 +34,16 @@ private:
     int idg;
     bool estado;
     bool habilitado;
-    Tarea* tarea;
-    
+    std::queue<Tarea> tareasIncompletas;
+    std::queue<Tarea> tareasCompletas;
     pthread_t becarioHilo;
 
-    static void* entradaBecario(void* c) { //  Función principal del hilo del becario
-        ((Becario*) c)->becarioMain();
-        return NULL;
+    void becarioMain() { //  Función principal del hilo del becario
+        
     }
-
-    void* becarioMain() { //  Función principal del hilo del becario
-        cout<<"Tarea no null!\n";
+    
+    void seccionCritica(){
+        
     }
 
 
@@ -48,23 +54,30 @@ public:
         this->idg = idg;
         this->estado = 0;
         this->habilitado = 1;
-        this->tarea = NULL;
     }
 
     ~Becario();
     
     void empezar(){
-         pthread_create(&becarioHilo, NULL, Becario::entradaBecario, this);
+         pthread_create(&becarioHilo, NULL, (void*)becarioMain, this);
          pthread_join(becarioHilo, NULL);
     }
 
-    friend ostream &operator<<(ostream &os, const Becario *b) { //  Sobrecarga del operador de escritura
-        os << "Id Grupo: " << b->idg << " Id Becario: " << b->id << endl;
+    friend std::ostream &operator<<(std::ostream &os, const Becario *b) { //  Sobrecarga del operador de escritura
+        os << "Id Grupo: " << b->idg << " Id Becario: " << b->id << std::endl;
         return os;
     }
     
-    void setTarea(Tarea* tarea){
-        this->tarea = tarea;
+    void setTarea(Tarea tarea){
+        this->tareasIncompletas.push(tarea);
+    }
+    
+    std::queue<Tarea> getTareasIncompletas(){
+        return this->tareasIncompletas;
+    }
+    
+    std::queue<Tarea> getTareasCompletas(){
+        return this->tareasCompletas;
     }
 
     bool isHabilitado() const {

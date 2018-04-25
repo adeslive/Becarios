@@ -7,24 +7,22 @@
 
 #include <thread>
 #include <vector>
-#include "edificio.h"
+#include "../headers/edificio.h"
 
 #ifndef SISTEMA_H_
 #define SISTEMA_H_
 
-class Sistema {
-public:
-	Sistema(int edificios);
-	virtual ~Sistema();
-	std::vector<Edificio> Edificios;
+struct Sistema {
+    virtual ~Sistema();
+    std::vector<Edificio*> Edificios;
+    
+    void crear_Edificios(int numEdificios, int numBecarios){
+        for(int i=0; i<numEdificios;i++){
+            Edificios.emplace_back(new Edificio(i,numBecarios));
+        }
+    }
 
 };
 
-Sistema::Sistema(int edificios){
-	for (int i=0; i<edificios; i++){
-		Edificio edificioN = new Edificio(i);
-		this->Edificios.push_back(edificioN);
-	}
-}
 
 #endif /* SISTEMA_H_ */
