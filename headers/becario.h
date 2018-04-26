@@ -9,6 +9,8 @@
 #include <pthread.h>
 #include <iostream>
 #include <queue>
+#include <unistd.h>
+#include "tarea.h"
 
 #ifndef BECARIO_H_
 #define BECARIO_H_
@@ -19,16 +21,8 @@
  * Estado 0 = No esta trabajando
  */
 
-struct Tarea{
-    bool tipo;
-    bool estado;
-    int tiempo;
-    int nBecarios;
-    int dificultad;
-    int prioridad;
-};
-
 class Becario {
+    
 private:
     int id;
     int idg;
@@ -38,10 +32,6 @@ private:
     std::queue<Tarea> tareasCompletas;
     pthread_t becarioHilo;
 
-    void becarioMain() { //  Función principal del hilo del becario
-        
-    }
-    
     void seccionCritica(){
         
     }
@@ -49,18 +39,20 @@ private:
 
 public:
 
-    Becario(int id, int idg) : becarioHilo() { //  Inicializador del becario
+    Becario(int id, int idg) { //  Inicializador del becario
         this->id = id;
         this->idg = idg;
         this->estado = 0;
         this->habilitado = 1;
+        
     }
 
     ~Becario();
     
-    void empezar(){
-         pthread_create(&becarioHilo, NULL, (void*)becarioMain, this);
-         pthread_join(becarioHilo, NULL);
+    static void* becarioMain (void* c) { //  Función principal del hilo del becario
+        Becario* b = ((Becario*)c);
+        std::cout<<"Hello from id: "<<b->getId();
+        pthread_exit(NULL);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Becario *b) { //  Sobrecarga del operador de escritura

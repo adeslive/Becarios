@@ -11,6 +11,7 @@
         <itemPath>headers/grupo.h</itemPath>
         <itemPath>headers/herramienta.h</itemPath>
         <itemPath>headers/sistema.h</itemPath>
+        <itemPath>headers/tarea.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -62,6 +63,8 @@
       </item>
       <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -97,6 +100,8 @@
       <item path="headers/herramienta.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

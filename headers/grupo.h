@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <pthread.h>
+#include <iostream>
 #include "becario.h"
 
 #ifndef GRUPO_H_
@@ -17,6 +18,8 @@ class Grupo {
 private:
     std::vector<Becario*> becarios;
     std::vector<pthread_t> becariosHilos;
+    int rc;
+    pthread_mutex_t mtx;
     int maxBecarios;
     bool habilitado;
 
@@ -30,7 +33,7 @@ public:
             this->becarios.resize(maxBecarios);
 
             for (int i = 0; i < maxBecarios; i++) {
-                becarios.emplace_back(new Becario(i,this->idg));
+                becarios[i] = new Becario(i,idg);
             }
         }
         
@@ -46,19 +49,15 @@ public:
         void manejarBecarios(){
             int i = 0;
             
-            while(habilitado){
+            for(i; i < maxBecarios ; i++){
                 
-                mtx.lock();
+                pthread_t nuevoHilo;
+                rc = pthread_create(&nuevoHilo, NULL, &Becario::becarioMain, (void*) this->becarios[i]);
+                becariosHilos.push_back(nuevoHilo);
                 
-                becarios[i]->empezar();
-                
-                i++;
-                if (i >= this->maxBecarios-1){
-                    i=0;
-                }
-                mtx.unlock();
-                    
+                pthread_join(becariosHilos[i], NULL);                
             }
+
         }
 };
 #endif /* GRUPO_H_ */

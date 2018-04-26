@@ -13,12 +13,14 @@
 
 #include <pthread.h>
 #include <iostream>
-#include "headers/grupo.h"
+#include "./headers/grupo.h"
 
 using namespace std;
 int main(int argc, char** argv) {
     
-    Grupo* grupo1 = new Grupo(1,2);
+    Grupo* grupo1 = new Grupo(1,1);
+    cout<<grupo1->get_becarios()[0];
+    grupo1->manejarBecarios();
     
     
     return 0;
