@@ -19,7 +19,6 @@ private:
     std::vector<Becario*> becarios;
     std::vector<pthread_t> becariosHilos;
     int rc;
-    pthread_mutex_t mtx;
     int maxBecarios;
     bool habilitado;
 
@@ -49,15 +48,16 @@ public:
         void manejarBecarios(){
             int i = 0;
             
-            for(i; i < maxBecarios ; i++){
+            for(i = 0; i < maxBecarios ; i++){
                 
                 pthread_t nuevoHilo;
                 rc = pthread_create(&nuevoHilo, NULL, &Becario::becarioMain, (void*) this->becarios[i]);
-                becariosHilos.push_back(nuevoHilo);
-                
-                pthread_join(becariosHilos[i], NULL);                
+                becariosHilos.push_back(nuevoHilo);        
             }
-
+            
+            for(i = 0; i < maxBecarios ; i++){
+                pthread_join(becariosHilos[i], NULL);
+            }
         }
 };
 #endif /* GRUPO_H_ */

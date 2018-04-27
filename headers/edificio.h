@@ -18,7 +18,7 @@ private:
     Grupo grupo;
     
     void edificioMain(){
-        
+     
     }
     
 public:

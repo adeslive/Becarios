@@ -21,6 +21,7 @@
  * Estado 0 = No esta trabajando
  */
 
+
 class Becario {
     
 private:
@@ -28,9 +29,12 @@ private:
     int idg;
     bool estado;
     bool habilitado;
-    std::queue<Tarea> tareasIncompletas;
-    std::queue<Tarea> tareasCompletas;
     pthread_t becarioHilo;
+    pthread_cond_t tPendiente = PTHREAD_COND_INITIALIZER;
+    Tarea* tareaActual;
+    std::queue<Tarea*> tareasIncompletas;
+    std::queue<Tarea*> tareasCompletas;
+    
 
     void seccionCritica(){
         
@@ -49,26 +53,23 @@ public:
 
     ~Becario();
     
-    static void* becarioMain (void* c) { //  Función principal del hilo del becario
-        Becario* b = ((Becario*)c);
-        std::cout<<"Hello from id: "<<b->getId();
-        pthread_exit(NULL);
-    }
+    static void* becarioMain (void* c); //  Función principal del hilo del becario
 
     friend std::ostream &operator<<(std::ostream &os, const Becario *b) { //  Sobrecarga del operador de escritura
         os << "Id Grupo: " << b->idg << " Id Becario: " << b->id << std::endl;
         return os;
     }
     
-    void setTarea(Tarea tarea){
+    void setTarea(Tarea* tarea){
         this->tareasIncompletas.push(tarea);
+        pthread_cond_signal(&tPendiente);
     }
     
-    std::queue<Tarea> getTareasIncompletas(){
+    std::queue<Tarea*> getTareasIncompletas(){
         return this->tareasIncompletas;
     }
     
-    std::queue<Tarea> getTareasCompletas(){
+    std::queue<Tarea*> getTareasCompletas(){
         return this->tareasCompletas;
     }
 

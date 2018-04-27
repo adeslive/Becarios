@@ -23,14 +23,25 @@ private:
     int dificultad;
     int prioridad;
     
-    
 public:
-    
     bool estado;
     int tiempo;
     int nBecarios;
     int tiempoT;
-    std::vector<int> tiempoPorBecario;
+    std::vector<int> area;
+    
+    Tarea (bool tipo, int dificultad, int prioridad){
+        this->tipo = tipo;
+        this->dificultad = dificultad;
+        this->prioridad = prioridad;  
+        
+        if (nBecarios == 0){
+            nBecarios = 1;
+        }
+        
+        tiempoT = (2*dificultad*prioridad)/nBecarios;
+
+    }
     
 };
 
