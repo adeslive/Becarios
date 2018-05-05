@@ -39,7 +39,6 @@ public:
 
     }
     
-    
     void crearEdificios(int ne, int mb){
         edificios.resize(ne);
         for(int i = 0; i < ne; i++){
@@ -47,7 +46,9 @@ public:
         }
         
         for(int i = 0; i < ne; i++){
-            this->edificios[i] = new edificio(i,mb);
+            pthread_t nuevoHilo;
+            int rc = pthread_create(&hilosEdificios[i],NULL, &monitor::entradaE, (void*) edificios[i]);
+            hilosEdificios.push_back(nuevoHilo);
         }
     }
     
@@ -55,12 +56,16 @@ public:
     void iniciarHB();
     
     void iniciarHE(){
-        for(auto edificio : this->edificios){
-           std::cout<< edificio->ide << std::endl; 
+        for(auto hilo : this->hilosEdificios){
+            pthread_join(hilo, NULL);
         }
     }
 
-    static void* entradaE(void* e);
+    static void* entradaE(void* e){
+        
+        edificio* Edi = (edificio*) e;
+        std::cout<<"EDIFICIO CREADO Y \n";
+    }
 
     static void* entradaG(void* g);
 

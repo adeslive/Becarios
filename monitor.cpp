@@ -9,10 +9,13 @@
 #include "monitor.h"
 
 
-void* monitor::entradaE(void* b)
-{ 
-    edificio* e = (edificio*)b;
-    
-}
+//void* monitor::entradaE(void* b)
+//{ 
+////    edificio* e = (edificio*)b;
+////    
+////    
+////    
+////    std::cout<<"EDIFICIO CREADO Y \n";
+//}
 
 
