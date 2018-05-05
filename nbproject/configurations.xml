@@ -10,6 +10,7 @@
         <itemPath>headers/edificio.h</itemPath>
         <itemPath>headers/grupo.h</itemPath>
         <itemPath>headers/monitor.h</itemPath>
+        <itemPath>headers/tarea.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -20,7 +21,6 @@
                      projectFiles="true">
       </logicalFolder>
       <itemPath>main.cpp</itemPath>
-      <itemPath>monitor.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -60,9 +60,9 @@
       </item>
       <item path="headers/monitor.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -96,9 +96,9 @@
       </item>
       <item path="headers/monitor.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

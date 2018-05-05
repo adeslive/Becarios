@@ -14,12 +14,17 @@
 #ifndef BECARIO_H
 #define BECARIO_H
 
+#include <queue>
+#include "tarea.h"
+
 class becario
 {
 public:
     int id;
     int idg;
-
+    tarea* tareaActual;
+    std::queue<tarea*> tareasIncompletas;
+    
     becario(int idg, int id)
     {
         this->idg = idg;

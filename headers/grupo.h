@@ -15,6 +15,7 @@
 #define GRUPO_H
 
 #include <vector>
+#include <pthread.h>
 #include "becario.h"
 
 class grupo
@@ -23,6 +24,7 @@ public:
     int idg;
     int maxbecarios;
     std::vector<becario*> becarios;
+    std::vector<pthread_t> hilosBecarios;
 
     grupo(int idg, int mb)
     {
