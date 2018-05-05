@@ -1,42 +1,34 @@
 /*
- * edificio.h
- *
- *  Created on: Apr 19, 2018
- *      Author: adesl
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-#include <thread>
-#include <list>
+/* 
+ * File:   edificio.h
+ * Author: adesl
+ *
+ * Created on May 5, 2018, 1:16 PM
+ */
+
+#ifndef EDIFICIO_H
+#define EDIFICIO_H
+
 #include "grupo.h"
 
-#ifndef EDIFICIO_H_
-#define EDIFICIO_H_
-
-class Edificio{
-    
-private:
-    Grupo grupo;
-    
-    void edificioMain(){
-     
-    }
-    
+class edificio
+{
 public:
-	int ide;
-        Grupo* grupo;
-        pthread_t hiloEdificio;
-        
-	Edificio(int ide, int numBecarios) : hiloEdificio(){
-            this->ide = ide;
-            grupo = new Grupo(ide, numBecarios);
-        }
+    int ide;
+    grupo* egrupo;
 
-        void comenzar(){
-            int r;
-            r = pthread_create(&hiloEdificio, NULL, (void*)edificioMain,NULL);
-            if (r){
-                
-            }
-        }
+    edificio(int ide, int mb)
+    {
+        this->ide = ide;
+        this->egrupo = new grupo(ide, mb);
+    }
 };
-#endif /* EDIFICIO_H_ */
+
+
+#endif /* EDIFICIO_H */
+
