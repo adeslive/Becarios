@@ -24,7 +24,7 @@ public:
     int id;
     int idg;
     bool habilitado;
-    bool ocupado;
+    bool sinTarea;
     tarea* tareaActual;
     std::queue<tarea*> tareasIncompletas;
 
@@ -34,16 +34,26 @@ public:
         this->id = id;
         this->tareaActual = nullptr;
         this->habilitado = true;
-        this->ocupado = true;
+        this->sinTarea = true;
+        
     }
 
     void trabajar()
     {
         if (tareaActual == nullptr) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 std::cout << this->id << ": Trabajando IDG: " << this->idg << std::endl;
             }
         }
+    }
+    
+    void setTarea(tarea* t)
+    {
+        if (!this->tareasIncompletas.empty()){
+            this->tareaActual = this->tareasIncompletas.front();
+            this->tareasIncompletas.pop();
+        }
+        
     }
 };
 

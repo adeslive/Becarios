@@ -20,6 +20,15 @@ public:
     int tiempo;
     int prioridad;
     
+    tarea(int t, int p){
+        tiempo = t;
+        prioridad = p;
+    }
+    
+    void print(){
+        printf(" Tiempo: %d  Prioridad: %d \n", this->tiempo, this->prioridad);
+    }
+    
 };
 
 

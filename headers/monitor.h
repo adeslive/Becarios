@@ -15,30 +15,51 @@
 #define MONITOR_H
 
 #include <iostream>
+#include <cstdlib>
+#include <cmath>
 #include <vector>
 #include <pthread.h>
 #include <unistd.h>
+#include <queue>
 #include "edificio.h"
+#include "tarea.h"
+
+// Variables globales.
+
+int hr, min, seg;
+
+
+pthread_mutex_t mutexBecarios = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t tareasNuevas = PTHREAD_COND_INITIALIZER;
+
+
+int numeroTareas = 0;
+bool ocupadoB;
+bool terminoJornada;
+
+std::queue<tarea*> tareasPool;
 
 class monitor
 {
 public:
-    int maximoBecarios;
 
-    pthread_mutex_t mutexBecarios = PTHREAD_MUTEX_INITIALIZER;
-    pthread_mutex_t mutexEdificios = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+    int maximoBecarios;
+    int numeroEdificios;
+
 
     std::vector<edificio*> edificios;
     std::vector<pthread_t> hilosEdificios;
 
     monitor()
     {
+        ocupadoB = false;
+        terminoJornada = false;
     }
 
     void crearEdificios(int ne, int mb)
     {
-
+        this->numeroEdificios = ne;
         if (ne == 1) {
             this->maximoBecarios = mb + 1;
         }
@@ -50,17 +71,43 @@ public:
             edificio* nuevoEd = new edificio(j, mb);
             this->edificios.push_back(nuevoEd);
         }
+    }
 
-        for (int i = 0; i < ne; i++) {
-            pthread_t nuevoHilo;
-            int rc = pthread_create(&hilosEdificios[i], NULL, &monitor::entradaE, (void*) edificios[i]);
-            hilosEdificios.push_back(nuevoHilo);
+    void crearTareas()
+    {
+        for (int i = 0; i < 1; i++) {
+            tarea* tareaN = new tarea(1 + rand() % 4, 1 + rand() % 4);
+            srand(i + 2);
+            //            tareaN->print();
+            tareasPool.push(tareaN);
+            numeroTareas++;
         }
 
     }
 
+    // Aun no funciona
+    void asignarTareas()
+    {
+        int r0, r1;
+        while (numeroTareas > 0) {
+
+            r0 = rand() % numeroEdificios + 1;
+            r1 = rand() % maximoBecarios;
+
+            std::cout << r0 << " " << r1 << std::endl;
+
+            edificios[r0]->egrupo->becarios[r1]->setTarea(tareasPool.front());
+            tareasPool.pop();
+
+            srand(r0 + r1 + 10);
+
+            numeroTareas--;
+        }
+    }
+
     void iniciarHB()
     {
+
         for (auto ed : this->edificios) {
             for (int i = 0; i < maximoBecarios; i++) {
                 pthread_t nuevoHilo;
@@ -74,20 +121,7 @@ public:
                 pthread_join(hilo, NULL);
             }
         }
-    }
 
-    void iniciarHE()
-    {
-        for (auto hilo : this->hilosEdificios) {
-            pthread_join(hilo, NULL);
-        }
-        iniciarHB();
-    }
-
-    static void* entradaE(void* e)
-    {
-        monitor m;
-        m.monitorE((edificio*) e);
     }
 
     static void* entradaB(void* b)
@@ -96,23 +130,19 @@ public:
         m.monitorB((becario*) b);
     }
 
-    // No ingresa a los valores del monitor, pero si puede ingresar a los propios
-    void monitorE(edificio* e)
-    {
-        pthread_mutex_lock(&mutexEdificios);
-
-        pthread_mutex_unlock(&mutexEdificios);
-    }
-
     void monitorB(becario* b)
     {
-        pthread_mutex_lock(&this->mutexBecarios);
-        
-        if (b->habilitado) {
-            b->trabajar();
-        }
-        
-        pthread_mutex_unlock(&this->mutexBecarios);
+
+        pthread_mutex_lock(&mutexBecarios);
+
+        //        while(b->tareaActual==nullptr){
+        //            pthread_cond_wait(&tareasNuevas, &mutexBecarios);  
+        //        }
+
+        pthread_mutex_unlock(&mutexBecarios);
+
+        b->trabajar();
+
     }
 
 
