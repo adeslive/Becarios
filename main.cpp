@@ -12,8 +12,8 @@
  */
 
 #include <iostream>
-#include "edificio.h"
-#include "monitor.h"
+#include "/headers/edificio.h"
+#include "/headers/monitor.h"
 
 using namespace std;
 
