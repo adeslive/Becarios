@@ -25,7 +25,7 @@ monitor* m = new monitor();
 
 int main(int argc, char** argv) {
     
-    m->crearEdificios(2,1);
+    m->crearEdificios(1,2);
     m->iniciarHE();
     
     return 0;

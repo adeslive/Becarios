@@ -15,6 +15,7 @@
 #define GRUPO_H
 
 #include <vector>
+#include <list>
 #include <pthread.h>
 #include "becario.h"
 
@@ -30,9 +31,11 @@ public:
     {
         this->idg = idg;
         this->maxbecarios = mb;
-        this->becarios.resize(mb);
-        for (int i = 0; i < mb; i++) {
-            this->becarios[i] = new becario(idg, i);
+        
+        for (int i = 0; i < mb; i++) 
+        {
+            becario* nuevoBe = new becario(this->idg, i);
+            this->becarios.push_back(nuevoBe);
         }
     }
 };

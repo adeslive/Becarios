@@ -18,7 +18,6 @@
 #include <vector>
 #include <pthread.h>
 #include <unistd.h>
-#include "binsem.h"
 #include "edificio.h"
 
 class monitor
@@ -26,34 +25,30 @@ class monitor
 public:
     int maximoBecarios;
 
-    pthread_barrier_t barrera0;
-    pthread_barrier_t barrera1;
-    
     pthread_mutex_t mutexBecarios = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_t mutexEdificios = PTHREAD_MUTEX_INITIALIZER;
     pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
     std::vector<edificio*> edificios;
-    std::vector<pthread_t> hilosEdificios;  
+    std::vector<pthread_t> hilosEdificios;
 
-    
     monitor()
     {
-        binsem(1);
-
     }
 
-    
     void crearEdificios(int ne, int mb)
     {
-        edificios.resize(ne);
-        this->maximoBecarios = mb;
 
-        pthread_barrier_init(&barrera0, NULL, ne);
-        pthread_barrier_init(&barrera1, NULL, ne*mb);
-        
-        for (int i = 0; i < ne; i++) {
-            this->edificios[i] = new edificio(i, mb);
+        if (ne == 1) {
+            this->maximoBecarios = mb + 1;
+        }
+        else {
+            this->maximoBecarios = mb;
+        }
+
+        for (int j = 0; j < ne; j++) {
+            edificio* nuevoEd = new edificio(j, mb);
+            this->edificios.push_back(nuevoEd);
         }
 
         for (int i = 0; i < ne; i++) {
@@ -64,7 +59,6 @@ public:
 
     }
 
-    
     void iniciarHB()
     {
         for (auto ed : this->edificios) {
@@ -82,47 +76,46 @@ public:
         }
     }
 
-    
     void iniciarHE()
     {
         for (auto hilo : this->hilosEdificios) {
             pthread_join(hilo, NULL);
         }
-
         iniciarHB();
     }
 
-    
     static void* entradaE(void* e)
     {
         monitor m;
         m.monitorE((edificio*) e);
     }
 
-
     static void* entradaB(void* b)
     {
         monitor m;
         m.monitorB((becario*) b);
     }
-    
+
     // No ingresa a los valores del monitor, pero si puede ingresar a los propios
     void monitorE(edificio* e)
     {
         pthread_mutex_lock(&mutexEdificios);
-        
+
         pthread_mutex_unlock(&mutexEdificios);
     }
 
-    
     void monitorB(becario* b)
     {
-        pthread_mutex_lock(&mutexBecarios);
+        pthread_mutex_lock(&this->mutexBecarios);
         
-        pthread_mutex_unlock(&mutexBecarios);
+        if (b->habilitado) {
+            b->trabajar();
+        }
+        
+        pthread_mutex_unlock(&this->mutexBecarios);
     }
-    
-    
+
+
 };
 
 
