@@ -17,16 +17,22 @@
 class tarea
 {
 public:
+    int id;
     int tiempo;
     int prioridad;
     
-    tarea(int t, int p){
+    tarea(int id, int t, int p){
+        this->id = id;
         tiempo = t;
         prioridad = p;
     }
     
+    void desc_print(){
+        printf("ID: %d Tiempo: %d  Prioridad: %d \n", this->id, this->tiempo, this->prioridad);
+    }
+    
     void print(){
-        printf(" Tiempo: %d  Prioridad: %d \n", this->tiempo, this->prioridad);
+        printf("ID: %d \n", this->id);
     }
     
 };

@@ -21,21 +21,17 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <queue>
+#include <time.h>
 #include "edificio.h"
 #include "tarea.h"
 
 // Variables globales.
 
-int hr, min, seg;
-
-
 pthread_mutex_t mutexBecarios = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t tareasNuevas = PTHREAD_COND_INITIALIZER;
 
-
 int numeroTareas = 0;
-bool ocupadoB;
 bool terminoJornada;
 
 std::queue<tarea*> tareasPool;
@@ -46,20 +42,23 @@ public:
 
     int maximoBecarios;
     int numeroEdificios;
-
+    int numeroEntorpecedores;
+    int r0 = 0;
+    int r1 = 0;
 
     std::vector<edificio*> edificios;
     std::vector<pthread_t> hilosEdificios;
 
     monitor()
     {
-        ocupadoB = false;
         terminoJornada = false;
     }
 
     void crearEdificios(int ne, int mb)
     {
         this->numeroEdificios = ne;
+        this->numeroEntorpecedores = ne;
+        
         if (ne == 1) {
             this->maximoBecarios = mb + 1;
         }
@@ -75,34 +74,47 @@ public:
 
     void crearTareas()
     {
-        for (int i = 0; i < 1; i++) {
-            tarea* tareaN = new tarea(1 + rand() % 4, 1 + rand() % 4);
+        srand(time(NULL));
+        int tareas = rand() % 10;
+        for (int i = 0; i < tareas; i++) {
+            tarea* tareaN = new tarea(numeroTareas + 1, 1 + rand() % 4, 1 + rand() % 5);
             srand(i + 2);
-            //            tareaN->print();
+            tareaN->desc_print();
             tareasPool.push(tareaN);
             numeroTareas++;
         }
-
+        std::cout << numeroTareas << " tareas creadas!" << std::endl;
     }
 
-    // Aun no funciona
     void asignarTareas()
     {
-        int r0, r1;
+
+        int viejoR0, viejoR1;
+
         while (numeroTareas > 0) {
 
-            r0 = rand() % numeroEdificios + 1;
-            r1 = rand() % maximoBecarios;
+            do {
+                srand(time(NULL));
+                r0 = rand() % numeroEdificios;
+                r1 = rand() % maximoBecarios;
+            }
+            while (r0 > numeroEdificios || r1 > maximoBecarios || r0 == viejoR0);
 
-            std::cout << r0 << " " << r1 << std::endl;
+            viejoR0 = r0;
+            viejoR1 = r1;
 
-            edificios[r0]->egrupo->becarios[r1]->setTarea(tareasPool.front());
+            std::cout << "Becario: " << edificios[r0]->egrupo->becarios[r1]->id + 1 << " Grupo: " << edificios[r0]->egrupo->idg + 1 << " ID tarea asignada: " << tareasPool.front()->id << std::endl;
+            edificios[r0]->egrupo->becarios[r1]->agregarTarea(tareasPool.front());
             tareasPool.pop();
 
-            srand(r0 + r1 + 10);
 
             numeroTareas--;
         }
+    }
+
+    void entorpecedor()
+    {
+        sleep(5);
     }
 
     void iniciarHB()
@@ -132,19 +144,26 @@ public:
 
     void monitorB(becario* b)
     {
-
-        pthread_mutex_lock(&mutexBecarios);
-
-        //        while(b->tareaActual==nullptr){
-        //            pthread_cond_wait(&tareasNuevas, &mutexBecarios);  
-        //        }
-
-        pthread_mutex_unlock(&mutexBecarios);
-
-        b->trabajar();
-
+        if (b->habilitado) {
+            
+            pthread_mutex_lock(&mutexBecarios);
+            
+            pthread_mutex_unlock(&mutexBecarios);
+            
+            b->trabajar();
+        }
     }
 
+    void reporte()
+    {
+        for (auto edificio : this->edificios) {
+            for (auto becario : edificio->egrupo->becarios) {
+                for (auto tarea : becario->tareasCompletadas) {
+                    tarea->print();
+                }
+            }
+        }
+    }
 
 };
 
