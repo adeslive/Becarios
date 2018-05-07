@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <queue>
+#include <string>
 #include "tarea.h"
 
 class becario
@@ -23,6 +24,7 @@ class becario
 public:
     int id;
     int idg;
+    int iterador;
     bool habilitado;
     bool sinTarea;
     tarea* tareaActual;
@@ -40,20 +42,18 @@ public:
     }
 
     void trabajar()
-    {
-        if (tareaActual != nullptr) {
-                
-            for (int i = 0; i < this->tareaActual->tiempo; i++) {
-                printf("ID Becario:  %d  ID Grupo:  %d  ID Tarea:  %d\n", this->id+1, this->idg+1, this->tareaActual->id);
-                this->tareaActual->tiempo--;
-            }
-            this->tareasCompletadas.push_back(tareaActual);
-            
-            if(this->tareasIncompletas.empty()){
-                this->tareaActual == nullptr;
-            }else{
-                this->siguienteTarea();
-            }
+    {  
+        for (int i = 0; i < iterador; i++) {
+            //s = s + std::to_string(this->id+1)+ " " + std::to_string(this->idg+1) + "\n";
+            printf("ID Becario:  %d  ID Grupo:  %d  ID Tarea:  %d\n", this->id+1, this->idg+1, this->tareaActual->id);
+            this->tareaActual->tiempo--;
+        }
+        this->tareasCompletadas.push_back(tareaActual);
+
+        if(this->tareasIncompletas.empty()){
+            this->tareaActual == nullptr;
+        }else{
+            this->siguienteTarea();
         }
     }
     
@@ -64,10 +64,13 @@ public:
     
     void agregarTarea(tarea* t)
     {
+        
+        
         if (!this->tareasIncompletas.empty()){
             this->tareasIncompletas.push(t);
         }else{
             this->tareaActual = t;
+            iterador = tareaActual->tiempo;
         }
         
     }

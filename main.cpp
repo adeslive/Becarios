@@ -61,11 +61,11 @@ int main(int argc, char** argv) {
             
             cout << "--Asignando tareas--\n";
             m->asignarTareas();
-            sleep(1);
+            sleep(2);
             
-            cout << "--Listos para trabajar--\n";
+            cout << "--Trabajando--\n";
             m->iniciarHB();
-            sleep(1);
+            sleep(2);
             
             cout << "--Tareas completadas--\n";
             m->reporte();

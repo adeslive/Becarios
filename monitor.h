@@ -148,9 +148,13 @@ public:
             
             pthread_mutex_lock(&mutexBecarios);
             
-            pthread_mutex_unlock(&mutexBecarios);
+            if (b->tareaActual != nullptr) {
+                
+                
+                b->trabajar();
+            }
             
-            b->trabajar();
+            pthread_mutex_unlock(&mutexBecarios);
         }
     }
 
