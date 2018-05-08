@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW_TDM-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW_TDM-Windows
-CND_ARTIFACT_NAME_Debug=becarios
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW_TDM-Windows/becarios
+CND_ARTIFACT_NAME_Debug=ahhhhhhhhhhhh
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW_TDM-Windows/ahhhhhhhhhhhh
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW_TDM-Windows/package
-CND_PACKAGE_NAME_Debug=becarios.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_TDM-Windows/package/becarios.tar
+CND_PACKAGE_NAME_Debug=ahhhhhhhhhhhh.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_TDM-Windows/package/ahhhhhhhhhhhh.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW_TDM-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW_TDM-Windows
-CND_ARTIFACT_NAME_Release=becarios
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW_TDM-Windows/becarios
+CND_ARTIFACT_NAME_Release=ahhhhhhhhhhhh
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW_TDM-Windows/ahhhhhhhhhhhh
 CND_PACKAGE_DIR_Release=dist/Release/MinGW_TDM-Windows/package
-CND_PACKAGE_NAME_Release=becarios.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW_TDM-Windows/package/becarios.tar
+CND_PACKAGE_NAME_Release=ahhhhhhhhhhhh.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW_TDM-Windows/package/ahhhhhhhhhhhh.tar
 #
 # include compiler specific variables
 #

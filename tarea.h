@@ -18,12 +18,15 @@ class tarea
 {
 public:
     int id;
+    int iterador;
     int tiempo;
     int prioridad;
     
+    bool completada = false;
+    
     tarea(int id, int t, int p){
         this->id = id;
-        tiempo = t;
+        iterador = tiempo = t;
         prioridad = p;
     }
     

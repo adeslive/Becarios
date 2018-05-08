@@ -28,10 +28,14 @@
 // Variables globales.
 
 pthread_mutex_t mutexBecarios = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutexEspera = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t tareasNuevas = PTHREAD_COND_INITIALIZER;
 
 int numeroTareas = 0;
+int maximoBecarios;
+int numeroEdificios;
+int numeroEntorpecedores;
 bool terminoJornada;
 
 std::queue<tarea*> tareasPool;
@@ -40,14 +44,10 @@ class monitor
 {
 public:
 
-    int maximoBecarios;
-    int numeroEdificios;
-    int numeroEntorpecedores;
     int r0 = 0;
     int r1 = 0;
 
     std::vector<edificio*> edificios;
-    std::vector<pthread_t> hilosEdificios;
 
     monitor()
     {
@@ -56,14 +56,14 @@ public:
 
     void crearEdificios(int ne, int mb)
     {
-        this->numeroEdificios = ne;
-        this->numeroEntorpecedores = ne;
+        numeroEdificios = ne;
+        numeroEntorpecedores = ne;
         
         if (ne == 1) {
-            this->maximoBecarios = mb + 1;
+            maximoBecarios = mb + 1;
         }
         else {
-            this->maximoBecarios = mb;
+            maximoBecarios = mb;
         }
 
         for (int j = 0; j < ne; j++) {
@@ -72,18 +72,20 @@ public:
         }
     }
 
-    void crearTareas()
-    {
+    
+    static void* crearTareas(void*)
+    {       
         srand(time(NULL));
         int tareas = rand() % 10;
-        for (int i = 0; i < tareas; i++) {
+        for (int i = 0; i < 5; i++) {
             tarea* tareaN = new tarea(numeroTareas + 1, 1 + rand() % 4, 1 + rand() % 5);
             srand(i + 2);
             tareaN->desc_print();
             tareasPool.push(tareaN);
             numeroTareas++;
         }
-        std::cout << numeroTareas << " tareas creadas!" << std::endl;
+        std::cout << 5 << " tareas creadas!" << std::endl;
+        
     }
 
     void asignarTareas()
@@ -95,21 +97,47 @@ public:
 
             do {
                 srand(time(NULL));
-                r0 = rand() % numeroEdificios;
-                r1 = rand() % maximoBecarios;
+                this->r0 = rand() % numeroEdificios;
+                this->r1 = rand() % maximoBecarios;
             }
-            while (r0 > numeroEdificios || r1 > maximoBecarios || r0 == viejoR0);
+            while (this->r0 > numeroEdificios || this->r1 > maximoBecarios || this->r0 == viejoR0);
 
             viejoR0 = r0;
             viejoR1 = r1;
 
-            std::cout << "Becario: " << edificios[r0]->egrupo->becarios[r1]->id + 1 << " Grupo: " << edificios[r0]->egrupo->idg + 1 << " ID tarea asignada: " << tareasPool.front()->id << std::endl;
-            edificios[r0]->egrupo->becarios[r1]->agregarTarea(tareasPool.front());
+            std::cout << "Becario: " << this->edificios[r0]->egrupo->becarios[r1]->id + 1 << " Grupo: " << this->edificios[r0]->egrupo->idg + 1 << " ID tarea asignada: " << tareasPool.front()->id << std::endl;
+            this->edificios[r0]->egrupo->becarios[r1]->agregarTarea(tareasPool.front());
             tareasPool.pop();
 
 
             numeroTareas--;
         }
+    }
+    
+    static void* relojMain(void*){
+        int seg, min, hr;
+
+        for( int i = 0; i< 28800; i++){
+            
+            if (seg == 60){
+                min++;
+                seg=0;
+            }
+            
+            if(min == 60){
+                hr++;
+                min=0;
+            }
+            
+            if(hr == 8){
+                pthread_cond_signal(&cond);              
+            }
+            
+            if(hr == 4){
+                
+            }
+        }
+
     }
 
     void entorpecedor()
@@ -136,26 +164,48 @@ public:
 
     }
 
-    static void* entradaB(void* b)
+    static void* entradaB(void* e)
     {
-        monitor m;
-        m.monitorB((becario*) b);
+        tarea* tareaA;
+        pthread_mutex_lock(&mutexBecarios);
+        becario* b = (becario*) e;
+        pthread_mutex_unlock(&mutexBecarios);  
+
+        while (b->habilitado && terminoJornada == false) {
+            
+            pthread_mutex_lock(&mutexBecarios);
+                if(b->tareasIncompletas.empty()){
+                    printf("Terminado:  ID Becario:  %d  ID Grupo:  %d   #Tareas:  %lu\n", b->id+1, b->idg+1, b->tareasCompletadas.size());
+                    printf("--------------------------------¡Sin Tareas! \n\n");
+                    pthread_cond_wait(&tareasNuevas, &mutexBecarios);      
+                }
+            pthread_mutex_unlock(&mutexBecarios);  
+            
+            pthread_mutex_lock(&mutexBecarios);
+                for (int i = 0; i < b->tareasIncompletas.size(); i++){
+                    
+                    tareaA = b->tareasIncompletas[i];
+                    
+                    if(terminoJornada == false){
+                        for (int j = 0; i < tareaA->iterador; i++) {
+                            if (tareaA->tiempo > 0){
+                                tareaA->tiempo--;
+                            }    
+                        }
+                    }
+                    
+                    b->tareasCompletadas.push_back(tareaA);
+                    b->tareasIncompletas.pop_back();  
+                }
+            pthread_mutex_unlock(&mutexBecarios);         
+        }
+         
+        pthread_exit(NULL);
     }
 
     void monitorB(becario* b)
     {
-        if (b->habilitado) {
-            
-            pthread_mutex_lock(&mutexBecarios);
-            
-            if (b->tareaActual != nullptr) {
-                
-                
-                b->trabajar();
-            }
-            
-            pthread_mutex_unlock(&mutexBecarios);
-        }
+        
     }
 
     void reporte()

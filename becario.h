@@ -24,11 +24,10 @@ class becario
 public:
     int id;
     int idg;
-    int iterador;
     bool habilitado;
     bool sinTarea;
     tarea* tareaActual;
-    std::queue<tarea*> tareasIncompletas;
+    std::vector<tarea*> tareasIncompletas;
     std::vector<tarea*> tareasCompletadas;
 
     becario(int idg, int id)
@@ -37,42 +36,17 @@ public:
         this->id = id;
         this->tareaActual = nullptr;
         this->habilitado = true;
-        this->sinTarea = true;
-        
-    }
-
-    void trabajar()
-    {  
-        for (int i = 0; i < iterador; i++) {
-            //s = s + std::to_string(this->id+1)+ " " + std::to_string(this->idg+1) + "\n";
-            printf("ID Becario:  %d  ID Grupo:  %d  ID Tarea:  %d\n", this->id+1, this->idg+1, this->tareaActual->id);
-            this->tareaActual->tiempo--;
-        }
-        this->tareasCompletadas.push_back(tareaActual);
-
-        if(this->tareasIncompletas.empty()){
-            this->tareaActual == nullptr;
-        }else{
-            this->siguienteTarea();
-        }
+        this->sinTarea = true;   
     }
     
     void siguienteTarea(){
         this->tareaActual = this->tareasIncompletas.front();
-        this->tareasIncompletas.pop();
+        this->tareasIncompletas.pop_back();
     }
     
     void agregarTarea(tarea* t)
     {
-        
-        
-        if (!this->tareasIncompletas.empty()){
-            this->tareasIncompletas.push(t);
-        }else{
-            this->tareaActual = t;
-            iterador = tareaActual->tiempo;
-        }
-        
+        this->tareasIncompletas.push_back(t);       
     }
     
     
