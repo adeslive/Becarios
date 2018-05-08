@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW_TDM-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW_TDM-Windows
-CND_ARTIFACT_NAME_Debug=ahhhhhhhhhhhh
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW_TDM-Windows/ahhhhhhhhhhhh
+CND_ARTIFACT_NAME_Debug=proyectosofinal
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW_TDM-Windows/proyectosofinal
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW_TDM-Windows/package
-CND_PACKAGE_NAME_Debug=ahhhhhhhhhhhh.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_TDM-Windows/package/ahhhhhhhhhhhh.tar
+CND_PACKAGE_NAME_Debug=proyectosofinal.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_TDM-Windows/package/proyectosofinal.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW_TDM-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW_TDM-Windows
-CND_ARTIFACT_NAME_Release=ahhhhhhhhhhhh
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW_TDM-Windows/ahhhhhhhhhhhh
+CND_ARTIFACT_NAME_Release=proyectosofinal
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW_TDM-Windows/proyectosofinal
 CND_PACKAGE_DIR_Release=dist/Release/MinGW_TDM-Windows/package
-CND_PACKAGE_NAME_Release=ahhhhhhhhhhhh.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW_TDM-Windows/package/ahhhhhhhhhhhh.tar
+CND_PACKAGE_NAME_Release=proyectosofinal.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW_TDM-Windows/package/proyectosofinal.tar
 #
 # include compiler specific variables
 #

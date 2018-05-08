@@ -36,6 +36,7 @@ pthread_cond_t tareasNuevas = PTHREAD_COND_INITIALIZER;
 int numeroTareas = 0;
 int maximoBecarios;
 int numeroEdificios;
+int numeroEntorpecedores;
 bool terminoJornada;
 
 std::queue<tarea*> tareasPool;
@@ -57,6 +58,7 @@ public:
     void crearEdificios(int ne, int mb)
     {
         numeroEdificios = ne;
+        numeroEntorpecedores = ne;
 
         if (ne == 1) {
             maximoBecarios = mb + 1;
@@ -85,7 +87,7 @@ public:
         srand(time(NULL));
         int tareas = 1+rand() % 10;
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < tareas; i++) {
             tarea* tareaN = new tarea(numeroTareas + 1, 1 + rand() % 4, 1 + rand() % 5);
             srand(i + 2);
             tareaN->desc_print();
@@ -110,13 +112,11 @@ public:
                 srand(time(NULL));
                 this->r0 = rand() % numeroEdificios;
                 this->r1 = rand() % maximoBecarios;
-                printf("r0:%d  r1: %d \n", r0, r1);
-                
             }
             while (this->r0 > numeroEdificios || this->r1 > maximoBecarios || this->r0 == viejoR0);
 
-            viejoR0 = r0;
-            viejoR1 = r1;
+            viejoR0 = this->r0;
+            viejoR1 = this->r1;
 
             if (tareasPool.front()->prioridad < 5) {
                 std::cout << "Becario: " << this->edificios[r0]->egrupo->becarios[r1]->id + 1 << " Grupo: " << this->edificios[r0]->egrupo->idg + 1 << " Tarea: " << tareasPool.front()->id << " Prioridad: " << tareasPool.front()->prioridad << std::endl;
@@ -135,8 +135,36 @@ public:
 
             numeroTareas--;
         }
-        pthread_exit(NULL);
     }
+
+//    static void* relojMain(void*)
+//    {
+//        int seg, min, hr;
+//
+//        for (int i = 0; i < 28800; i++) {
+//
+//            if (seg == 60) {
+//                min++;
+//                seg = 0;
+//                printf("1 MIN");
+//            }
+//
+//            if (min == 60) {
+//                hr++;
+//                min = 0;
+//            }
+//
+//            if (hr == 8) {
+//                pthread_cond_signal(&cond);
+//                terminoJornada = true;
+//            }
+//
+//            if (hr == 4) {
+//
+//            }
+//        }
+//
+//    }
 
     void iniciarHB()
     {
@@ -159,7 +187,7 @@ public:
         b->nMolestado = 0;
         pthread_mutex_unlock(&mutexBecarios);
 
-        while (terminoJornada == false && b->habilitado) {
+        while (terminoJornada == false && b->habilitado && b->tareasIncompletas.size() >= 0) {
 
             pthread_mutex_lock(&mutexBecarios);
 
@@ -207,7 +235,7 @@ public:
     {
         for (auto edificio : this->edificios) {
             for (auto becario : edificio->egrupo->becarios) {
-                printf("Terminado:  ID Becario:  %d  ID Grupo:  %d   #Tareas Completadas:  %d   Disponible:  %s\n", becario->id + 1, becario->idg + 1, (int) becario->tareasCompletadas.size(), becario->habilitado ? "Si" : "No");
+                printf("Terminado:  ID Becario:  %d  ID Grupo:  %d   #Tareas Completadas:  %d  #Tareas Incompletas:  %d   Disponible:  %s\n", becario->id + 1, becario->idg + 1, (int) becario->tareasCompletadas.size(), (int) becario->tareasIncompletas.size(), becario->habilitado ? "Si" : "No");
             }
         }
     }

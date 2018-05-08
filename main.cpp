@@ -27,32 +27,32 @@ pthread_t crear_tareas;
 int main(int argc, char** argv) {
     srand(time(NULL));
 
-    int numeroBecarios = 1 + rand() % 5;
-    int numEdificios = 1 + rand() % 4;
+    int numeroBecarios =  1 + rand() % 3;
+    int numEdificios = 1 + rand() % 2;
 
-
-//    if(numeroBecarios < 2 ){
-//        cout << "Becarios insuficientes"<<endl;
-//        return 0;
-//    }else if(numeroEdificios < 2){
-//        cout << "Grupos insuficientes"<<endl;
-//        return 0;
-//    }
+    if(numeroBecarios == 1  ||  numEdificios == 1){
+        cout << "Numero de Edificios: " << numeroBecarios << " Numero de Becarios por Grupo: " << numEdificios <<endl;
+        cout << "Becarios o grupos insuficientes: " << endl;
+        return 0;
+    }
     
     cout << "La jornada ha inciado\nNumero de Edificios: " << numeroBecarios << " Numero de Becarios por Grupo: " << numEdificios << endl;
     sleep(2);
-    m->crearEdificios(5, 5);
+    m->crearEdificios(numEdificios, numeroBecarios);
 
 
-    for (int i = 0; i < 2; i++) {
-
+    for (int i = 0; i < NJORNADAS; i++) {
+//        pthread_create(&reloj, NULL, &monitor::reloj_main, NULL); 
         pthread_create(&crear_tareas, NULL, &monitor::crearTareas, NULL);
+//        pthread_join(reloj, NULL);
         pthread_join(crear_tareas, NULL);
 
 
         m->asignarTareas();
-
+        sleep(5);
+        
         cout << "\n--Trabajando--\n\n";
+        sleep(5);
         m->iniciarHB();
 
     }

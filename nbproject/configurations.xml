@@ -5,7 +5,6 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>becario.h</itemPath>
-      <itemPath>binsem.h</itemPath>
       <itemPath>edificio.h</itemPath>
       <itemPath>grupo.h</itemPath>
       <itemPath>monitor.h</itemPath>
@@ -19,7 +18,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.cpp</itemPath>
-      <itemPath>monitor.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -48,15 +46,11 @@
       </compileType>
       <item path="becario.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="binsem.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="edificio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="grupo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="monitor.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -86,15 +80,11 @@
       </compileType>
       <item path="becario.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="binsem.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="edificio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="grupo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="monitor.h" ex="false" tool="3" flavor2="0">
       </item>
