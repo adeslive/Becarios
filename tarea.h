@@ -21,6 +21,7 @@ public:
     int iterador;
     int tiempo;
     int prioridad;
+    int numeroBecarios = 0;
     
     bool completada = false;
     

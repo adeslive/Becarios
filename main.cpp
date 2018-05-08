@@ -46,23 +46,32 @@ int main(int argc, char** argv) {
 //        cout << "Grupos insuficientes"<<endl;
 //        jornada = false;
 //    }
-    
-
     cout << "La jornada ha inciado\nNumero de Edificios: "<< 2 <<" Numero de Becarios por Grupo: "<< 2 <<endl;
     sleep(2);
-    m->crearEdificios(2, 2);  
+    m->crearEdificios(2, 2);
+    
+    pthread_create(&reloj, NULL, &monitor::relojMain, NULL);
+    
+    
+    while(true){
+        
+        
+    
+        pthread_create(&crear_tareas, NULL, &monitor::crearTareas, NULL);
+        pthread_join(crear_tareas, NULL);
 
-    cout << "\n--Creando tareas--\n\n";
-    pthread_create(&crear_tareas, NULL, &monitor::crearTareas, NULL);
-    pthread_join(crear_tareas, NULL);
+        cout << "\n--Asignando tareas--\n\n";
+        m->asignarTareas();
 
-    cout << "\n--Asignando tareas--\n\n";
-    m->asignarTareas();
-    sleep(2);
-
-    cout << "\n--Trabajando--\n\n";
-    m->iniciarHB();
-    sleep(2);
+        cout << "\n--Trabajando--\n\n";
+        m->iniciarHB();
+        
+    }
+    
+    
+    
+    
+    
 
     cout << "--Tareas completadas--\n";
     m->reporte();

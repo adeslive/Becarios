@@ -24,6 +24,7 @@ class becario
 public:
     int id;
     int idg;
+    int nMolestado = 0;
     bool habilitado;
     bool sinTarea;
     tarea* tareaActual;
@@ -38,11 +39,7 @@ public:
         this->habilitado = true;
         this->sinTarea = true;   
     }
-    
-    void siguienteTarea(){
-        this->tareaActual = this->tareasIncompletas.front();
-        this->tareasIncompletas.pop_back();
-    }
+   
     
     void agregarTarea(tarea* t)
     {
