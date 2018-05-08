@@ -1,8 +1,12 @@
-build/Debug/MinGW_TDM-Windows/main.o: main.cpp headers/grupo.h \
- headers/becario.h headers/tarea.h
+build/Debug/MinGW_TDM-Windows/main.o: main.cpp monitor.h edificio.h \
+ grupo.h becario.h tarea.h
 
-headers/grupo.h:
+monitor.h:
 
-headers/becario.h:
+edificio.h:
 
-headers/tarea.h:
+grupo.h:
+
+becario.h:
+
+tarea.h:

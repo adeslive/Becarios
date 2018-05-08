@@ -4,24 +4,22 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <logicalFolder name="headers" displayName="headers" projectFiles="true">
-        <itemPath>headers/becario.h</itemPath>
-        <itemPath>headers/edificio.h</itemPath>
-        <itemPath>headers/entorpecedor.h</itemPath>
-        <itemPath>headers/grupo.h</itemPath>
-        <itemPath>headers/herramienta.h</itemPath>
-        <itemPath>headers/sistema.h</itemPath>
-        <itemPath>headers/tarea.h</itemPath>
-      </logicalFolder>
+      <itemPath>becario.h</itemPath>
+      <itemPath>binsem.h</itemPath>
+      <itemPath>edificio.h</itemPath>
+      <itemPath>grupo.h</itemPath>
+      <itemPath>monitor.h</itemPath>
+      <itemPath>tarea.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <logicalFolder name="ResourceFiles"
-                     displayName="Resource Files"
-                     projectFiles="true">
-      </logicalFolder>
       <itemPath>main.cpp</itemPath>
+      <itemPath>monitor.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -35,9 +33,6 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceRootList>
-    <Elem>headers</Elem>
-  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -51,21 +46,21 @@
           <standard>8</standard>
         </ccTool>
       </compileType>
-      <item path="headers/becario.h" ex="false" tool="3" flavor2="0">
+      <item path="becario.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/edificio.h" ex="false" tool="3" flavor2="0">
+      <item path="binsem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/entorpecedor.h" ex="false" tool="3" flavor2="0">
+      <item path="edificio.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/grupo.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/herramienta.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
+      <item path="grupo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="monitor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tarea.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -89,21 +84,21 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="headers/becario.h" ex="false" tool="3" flavor2="0">
+      <item path="becario.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/edificio.h" ex="false" tool="3" flavor2="0">
+      <item path="binsem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/entorpecedor.h" ex="false" tool="3" flavor2="0">
+      <item path="edificio.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="headers/grupo.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/herramienta.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/sistema.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="headers/tarea.h" ex="false" tool="3" flavor2="0">
+      <item path="grupo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="monitor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="monitor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tarea.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
